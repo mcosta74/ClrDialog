@@ -1,0 +1,19 @@
+<clr-modal [clrModalOpen]="open" [clrModalClosable]="false">
+    <h3 class="modal-title">
+      <clr-icon *ngIf="options.iconShape"
+        [attr.shape]="options.iconShape"
+        [attr.class]="options.iconClass"
+        size="24"></clr-icon>
+      {{options.title}}
+    </h3>
+    <div class="modal-body" [innerHTML]="options.content"></div>
+    <div class="modal-footer">
+        <button *ngIf="options.cancelText"
+          class="btn" (click)="onButtonClick(false)">
+          {{options.cancelText}}
+        </button>
+        <button class="btn" [ngClass]="acceptClass" (click)="onButtonClick(true)">
+          {{options.acceptText}}
+        </button>
+    </div>
+</clr-modal>
