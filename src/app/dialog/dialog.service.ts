@@ -1,37 +1,27 @@
 import { Injectable } from '@angular/core';
-
-// import { DialogModule } from './dialog.module';
+import { Subject, Observable } from 'rxjs';
 import { ConfirmOptions, ConfirmType } from './dialog.types';
-import { Observable, Subject } from 'rxjs';
+
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class DialogService {
 
-  private isOpen = false;
-  private openChange: Subject<boolean> = new Subject<boolean>();
-  openChange$: Observable<boolean> = this.openChange.asObservable();
+  readonly DEFAULT_OPTIONS: ConfirmOptions = {
+    acceptText: 'Ok',
+    cancelText: 'Cancel',
+    acceptType: 'primary',
+  };
 
-  private options: ConfirmOptions = {};
-  getOptions(): ConfirmOptions {
-    return this.options;
-  }
+  private optionsSubject$: Subject<ConfirmOptions> = new Subject<ConfirmOptions>();
+  options$: Observable<ConfirmOptions> = this.optionsSubject$.asObservable();
 
-  setOptions(options: ConfirmOptions) {
-    this.options = options;
-  }
-
-  setOpen(value: boolean) {
-    if (value !== this.isOpen) {
-      this.isOpen = value;
-      this.openChange.next(value);
-    }
-  }
+  private resultChange$: Subject<boolean>;
 
   constructor() { }
 
-  confirm(options: ConfirmOptions = {}) {
+  confirm(options: ConfirmOptions = {}): Observable<boolean> {
     if (!('iconShape' in options)) {
       options.iconShape = 'help';
     }
@@ -39,27 +29,26 @@ export class DialogService {
     if (!('iconClass' in options)) {
       options.iconClass = 'is-highlight is-solid';
     }
-
-    this.create(options, 'confirm');
+    return this.create(options, 'confirm');
   }
 
-  error(options: ConfirmOptions = {}) {
-    this.simpleConfirm(options, 'error');
+  error(options: ConfirmOptions = {}): Observable<boolean> {
+    return this.simpleConfirm(options, 'error');
   }
 
-  info(options: ConfirmOptions = {}) {
-    this.simpleConfirm(options, 'info');
+  info(options: ConfirmOptions = {}): Observable<boolean> {
+    return this.simpleConfirm(options, 'info');
   }
 
-  success(options: ConfirmOptions = {}) {
-    this.simpleConfirm(options, 'success');
+  success(options: ConfirmOptions = {}): Observable<boolean> {
+    return this.simpleConfirm(options, 'success');
   }
 
-  warning(options: ConfirmOptions = {}) {
-    this.simpleConfirm(options, 'warning');
+  warning(options: ConfirmOptions = {}): Observable<boolean> {
+    return this.simpleConfirm(options, 'warning');
   }
 
-  private simpleConfirm(options: ConfirmOptions = {}, confirmType: ConfirmType) {
+  private simpleConfirm(options: ConfirmOptions = {}, confirmType: ConfirmType): Observable<boolean> {
     const iconsMap = {
       info: 'info-standard',
       success: 'success-standard',
@@ -80,11 +69,25 @@ export class DialogService {
     if (!('cancelText' in options)) {
       options.cancelText = null;
     }
-    this.create(options, confirmType);
+    return this.create(options, confirmType);
   }
 
-  private create(options: ConfirmOptions = {}, confirmType: ConfirmType = 'confirm') {
-    this.setOptions(options);
-    this.setOpen(true);
+  private create(options: ConfirmOptions, confirmType: ConfirmType = 'confirm'): Observable<boolean> {
+    this.optionsSubject$.next({
+      ...this.DEFAULT_OPTIONS,
+      ...options,
+      open: true,
+      confirmType,
+    });
+
+    this.resultChange$ = new Subject<boolean>();
+    return this.resultChange$.asObservable();
+  }
+
+
+  close(accepted: boolean) {
+    this.optionsSubject$.next({open: false});
+
+    this.resultChange$.next(accepted);
   }
 }

@@ -17,12 +17,7 @@ export class MainComponent implements OnInit {
     this.dialog.confirm({
       title: 'Send Email',
       content: 'Are you sure to send the confirmation email?',
-      acceptText: 'Yes',
-      cancelText: 'No',
-      onAccept: () => {
-        console.log('Accepted');
-      }
-    });
+    }).subscribe(result => console.log('Confirm:', result));
   }
 
   onCustomConfirm() {
@@ -32,9 +27,6 @@ export class MainComponent implements OnInit {
       acceptText: 'Delete',
       acceptType: 'warning',
       iconShape: null,
-      onAccept: () => {
-        console.log('Deleting item');
-      }
     });
   }
 

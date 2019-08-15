@@ -1,8 +1,6 @@
 export type ConfirmType = 'confirm' | 'info' | 'success' | 'warning' | 'error';
 export type AcceptType = 'primary' | 'success' | 'warning' | 'danger';
 
-type ClickCallback = () => void | Promise<void>;
-
 export interface ConfirmOptions {
   open?: boolean;
   title?: string;
@@ -11,7 +9,6 @@ export interface ConfirmOptions {
   iconClass?: string;
   acceptText?: string;
   acceptType?: AcceptType;
-  onAccept?: ClickCallback;
   cancelText?: string;
-  onCancel?: ClickCallback;
+  confirmType?: ConfirmType;
 }

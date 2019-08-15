@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { DialogService } from './dialog.service';
 
-describe('DialogService', () => {
+describe('Dialog2Service', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
