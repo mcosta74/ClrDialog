@@ -11,6 +11,7 @@ import { DialogService } from './dialog.service';
 export class DialogComponent implements OnInit {
 
   open = false;
+  readonly ICON_SIZE: number = 24;
   readonly DEFAULT_OPTIONS: ConfirmOptions = {
     acceptText: 'Ok',
     acceptType: 'primary',
@@ -44,6 +45,12 @@ export class DialogComponent implements OnInit {
     };
 
     return classMap[this.options.acceptType];
+  }
+
+  get contentMarginLeft(): string {
+    const margin = this.options.iconShape ? `${this.ICON_SIZE + 6}px` : '0';
+    console.log('iconClass:', this.options.iconShape, ', margin-left:', margin);
+    return margin;
   }
 
   onButtonClick(accept: boolean) {

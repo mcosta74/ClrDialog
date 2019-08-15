@@ -23,10 +23,10 @@ export class DialogService {
   }
 
   setOpen(value: boolean) {
-    // if (value !== this.isOpen) {
+    if (value !== this.isOpen) {
       this.isOpen = value;
       this.openChange.next(value);
-    // }
+    }
   }
 
   constructor() { }
@@ -37,7 +37,7 @@ export class DialogService {
     }
 
     if (!('iconClass' in options)) {
-      options.iconClass = 'is-highlight';
+      options.iconClass = 'is-highlight is-solid';
     }
 
     this.create(options, 'confirm');
@@ -68,10 +68,10 @@ export class DialogService {
     };
 
     const classMap = {
-      info: 'is-info',
-      success: 'is-success',
-      error: 'is-error',
-      warning: 'is-warning',
+      info: 'is-info is-solid',
+      success: 'is-success is-solid',
+      error: 'is-error is-solid',
+      warning: 'is-warning is-solid',
     };
 
     options.iconShape = iconsMap[confirmType];
