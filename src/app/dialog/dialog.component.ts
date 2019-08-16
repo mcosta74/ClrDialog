@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { DialogService } from './dialog.service';
 import { Observable } from 'rxjs';
 import { ConfirmOptions } from './dialog.types';
@@ -9,15 +9,13 @@ import { ConfirmOptions } from './dialog.types';
   styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent {
 
   options$: Observable<ConfirmOptions>;
 
   readonly ICON_SIZE: number = 36;
 
-  constructor(private dialogService: DialogService) { }
-
-  ngOnInit() {
+  constructor(private dialogService: DialogService) {
     this.options$ = this.dialogService.options$;
   }
 

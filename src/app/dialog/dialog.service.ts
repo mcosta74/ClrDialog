@@ -89,5 +89,6 @@ export class DialogService {
     this.optionsSubject$.next({open: false});
 
     this.resultChange$.next(accepted);
+    this.resultChange$.complete();
   }
 }
