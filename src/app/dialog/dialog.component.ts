@@ -13,7 +13,7 @@ export class DialogComponent {
 
   options$: Observable<ConfirmOptions>;
 
-  readonly ICON_SIZE: number = 36;
+  readonly ICON_SIZE: number = 24;
 
   constructor(private dialogService: DialogService) {
     this.options$ = this.dialogService.options$;
