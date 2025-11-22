@@ -1,25 +1,36 @@
 import { Component, signal, inject } from '@angular/core';
+import '@cds/core/icon/register.js';
+import { homeIcon, ClarityIcons } from '@cds/core/icon';
+import {ClarityModule} from '@clr/angular';
+
+ClarityIcons.addIcons(homeIcon);
 
 import { Dialog, DialogModule, DialogRef, DIALOG_DATA} from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-root',
-  imports: [DialogModule],
+  imports: [DialogModule, ClarityModule],
   template: `
     <div class="main-container">
+      <header class="header-6">
+        <div class="branding">
+          <a href="javascript://" class="nav-link">
+            <!-- <cds-icon shape="home"></cds-icon> -->
+            <span class="title">Welcome to {{title()}}</span>
+          </a>
+        </div>
+      </header>
       <div class="content-container">
         <div class="content-area">
-          <h1 cds-text="display">Welcome to {{ title() }}!</h1>
-
           <button class="btn btn-primary" (click)="openDialog()">Open Dialog</button>
         </div>
       </div>
     </div>
-`,
+  `,
   styles: [],
 })
 export class App {
-  dialog = inject(Dialog)
+  dialog = inject(Dialog);
 
   protected readonly title = signal('clr-dialog');
 
@@ -28,9 +39,8 @@ export class App {
     const ref = this.dialog.open(ExampleDialog, {
       disableClose: true,
       panelClass: 'modal',
-      data: {firstName: 'Massimo', lastName: 'Costa'},
-    }
-    );
+      data: { firstName: 'Massimo', lastName: 'Costa' },
+    });
 
     ref.closed.subscribe((result) => console.log('dialog closed:', result));
   }
