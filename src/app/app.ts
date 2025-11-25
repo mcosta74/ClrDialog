@@ -1,28 +1,35 @@
 import { Component, signal, inject } from '@angular/core';
+
 import '@cds/core/icon/register.js';
 import { homeIcon, ClarityIcons } from '@cds/core/icon';
-import {ClarityModule} from '@clr/angular';
+import {ClrIconModule} from '@clr/angular';
+
+import { MessageBoxService } from './dialog/message-box';
 
 ClarityIcons.addIcons(homeIcon);
 
-import { Dialog, DialogModule, DialogRef, DIALOG_DATA} from '@angular/cdk/dialog';
-
 @Component({
   selector: 'app-root',
-  imports: [DialogModule, ClarityModule],
+  imports: [ClrIconModule],
   template: `
     <div class="main-container">
       <header class="header-6">
         <div class="branding">
-          <a href="javascript://" class="nav-link">
-            <!-- <cds-icon shape="home"></cds-icon> -->
-            <span class="title">Welcome to {{title()}}</span>
+          <a class="nav-link">
+            <cds-icon shape="home" size="lg"></cds-icon>
+            <span class="title">Welcome to {{ title() }}</span>
           </a>
         </div>
       </header>
       <div class="content-container">
         <div class="content-area">
-          <button class="btn btn-primary" (click)="openDialog()">Open Dialog</button>
+          <div class="clr-row">
+            <button class="btn btn-primary" (click)="openInfo()">Info Dialog</button>
+            <button class="btn btn-primary" (click)="openWarning()">Warning Dialog</button>
+            <button class="btn btn-primary" (click)="openError()">Error Dialog</button>
+            <button class="btn btn-primary" (click)="openQuestion()">Question Dialog</button>
+            <button class="btn btn-primary" (click)="openYesNoCancel()">Yes/No/Cancel Dialog</button>
+          </div>
         </div>
       </div>
     </div>
@@ -30,49 +37,37 @@ import { Dialog, DialogModule, DialogRef, DIALOG_DATA} from '@angular/cdk/dialog
   styles: [],
 })
 export class App {
-  dialog = inject(Dialog);
+  private msbBox = inject(MessageBoxService);
 
   protected readonly title = signal('clr-dialog');
 
-  openDialog() {
-    console.log('Open');
-    const ref = this.dialog.open(ExampleDialog, {
-      disableClose: true,
-      panelClass: 'modal',
-      data: { firstName: 'Massimo', lastName: 'Costa' },
-    });
-
-    ref.closed.subscribe((result) => console.log('dialog closed:', result));
-  }
-}
-
-
-@Component({
-  imports: [],
-  template: `
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-title">Hello {{data.firstName}} </div>
-        </div>
-        <div class="modal-body">
-          Hi there!
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" (click)="close(1)">Ok</button>
-          <button class="btn" (click)="close()">Cancel</button>
-        </div>
-      </div>
-    </div>
-  `
-})
-class ExampleDialog {
-  ref = inject(DialogRef)
-  protected data: {firstName: string, lastName: string} = inject(DIALOG_DATA);
-
-  close(param?: number ) {
-    console.log('Data:', this.data);
-    this.ref.close(param);
+  openInfo() {
+    this.msbBox
+      .info('Info', 'This is the Info Message')
+      .subscribe(() => console.log('info closed'));
   }
 
+  openWarning() {
+    this.msbBox
+      .warning('Warning', 'This is the Warning Message')
+      .subscribe(() => console.log('warning closed'));
+  }
+
+  openError() {
+    this.msbBox
+      .error('Error', 'This is the Error Message')
+      .subscribe(() => console.log('error closed'));
+  }
+
+  openQuestion() {
+    this.msbBox
+      .question('Question', 'Are you sure to proceede?')
+      .subscribe((res) => console.log('question closed', res));
+  }
+
+  openYesNoCancel() {
+    this.msbBox
+      .yesNoCancel('YesNoCancel', 'Are you sure to proceede?')
+      .subscribe((res) => console.log('yes/no/cancel closed', res));
+  }
 }
