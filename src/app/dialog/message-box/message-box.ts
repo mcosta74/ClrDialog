@@ -1,11 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
 
-// import '@cds/core/icon/register.js';
-import { warningStandardIcon, errorStandardIcon, infoStandardIcon, ClarityIcons, helpIcon } from '@cds/core/icon';
-import { ClrIconModule } from '@clr/angular';
-
-ClarityIcons.addIcons(errorStandardIcon, infoStandardIcon, warningStandardIcon, helpIcon);
+import { warningStandardIcon, errorStandardIcon, infoStandardIcon, ClarityIcons, helpIcon, ClrIcon } from '@clr/angular/icon';
 
 export enum MessageBoxResult {
   Accepted = 1,
@@ -29,17 +25,14 @@ export interface MessageBoxData {
 
 
 @Component({
-  imports: [ClrIconModule],
+  imports: [ClrIcon],
   template: `
     <div class="modal-dialog">
       <div class="modal-content">
-        <!-- <div class="modal-header">
-          <div class="modal-title"></div>
-        </div> -->
         <div class="modal-body">
           <div class="clr-row clr-align-items-center">
             <div class="clr-col-1">
-              <cds-icon [attr.shape]="iconShape()" [attr.status]="iconStatus()" size="lg" />
+              <clr-icon [shape]="iconShape()" [attr.status]="iconStatus()" size="lg" />
             </div>
             <div class="clr-col">
               <div cds-text="section">{{ data.title }}</div>
@@ -90,11 +83,15 @@ export interface MessageBoxData {
   `,
   styles: ``,
 })
-export class MessageBox {
+export class MessageBox implements OnInit {
   protected ref = inject(DialogRef);
   protected data: MessageBoxData = inject(DIALOG_DATA);
   protected MessageBoxResult = MessageBoxResult;
   protected MessageBoxType = MessageBoxType;
+
+  ngOnInit(): void {
+    ClarityIcons.addIcons(errorStandardIcon, infoStandardIcon, warningStandardIcon, helpIcon);
+  }
 
   primaryButtonText(): string {
     switch (this.data.type) {
