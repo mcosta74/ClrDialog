@@ -1,34 +1,32 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 
-import '@cds/core/icon/register.js';
-import { homeIcon, ClarityIcons } from '@cds/core/icon';
-import {ClrIconModule} from '@clr/angular';
+import { homeIcon, ClarityIcons, ClrIcon } from '@clr/angular/icon';
 
 import { MessageBoxService } from './dialog/message-box';
 
-ClarityIcons.addIcons(homeIcon);
-
 @Component({
   selector: 'app-root',
-  imports: [ClrIconModule],
+  imports: [ClrIcon],
   template: `
     <div class="main-container">
       <header class="header-6">
         <div class="branding">
           <a class="nav-link">
-            <cds-icon shape="home" size="lg"></cds-icon>
+            <clr-icon shape="home" size="lg"></clr-icon>
             <span class="title">Welcome to {{ title() }}</span>
           </a>
         </div>
       </header>
       <div class="content-container">
         <div class="content-area">
+          <h3 cds-text="headline">Message Box Dialog</h3>
+          <p cds-text="body">This is a demo of the clr-dialog component.</p>
           <div class="clr-row">
-            <button class="btn btn-primary" (click)="openInfo()">Info Dialog</button>
-            <button class="btn btn-primary" (click)="openWarning()">Warning Dialog</button>
-            <button class="btn btn-primary" (click)="openError()">Error Dialog</button>
-            <button class="btn btn-primary" (click)="openQuestion()">Question Dialog</button>
-            <button class="btn btn-primary" (click)="openYesNoCancel()">Yes/No/Cancel Dialog</button>
+            <button class="btn btn-info" (click)="openInfo()">Info Dialog</button>
+            <button class="btn btn-warning" (click)="openWarning()">Warning Dialog</button>
+            <button class="btn btn-danger" (click)="openError()">Error Dialog</button>
+            <button class="btn btn-neutral" (click)="openQuestion()">Question Dialog</button>
+            <button class="btn btn-success" (click)="openYesNoCancel()">Yes/No/Cancel Dialog</button>
           </div>
         </div>
       </div>
@@ -36,10 +34,14 @@ ClarityIcons.addIcons(homeIcon);
   `,
   styles: [],
 })
-export class App {
+export class App implements OnInit {
   private msbBox = inject(MessageBoxService);
 
   protected readonly title = signal('clr-dialog');
+
+  ngOnInit(): void {
+    ClarityIcons.addIcons(homeIcon);
+  }
 
   openInfo() {
     this.msbBox
