@@ -18,15 +18,17 @@ import { MessageBoxService } from './dialog/message-box';
         </div>
       </header>
       <div class="content-container">
-        <div class="content-area">
+        <div class="content-area" cds-layout="m-t:md">
           <h3 cds-text="headline">Message Box Dialog</h3>
-          <p cds-text="body">This is a demo of the clr-dialog component.</p>
-          <div class="clr-row">
+          <p cds-text="body" cds-layout="m-t:md">This is a demo of the clr-dialog component.</p>
+          <div class="clr-row" cds-layout="m-t:md">
             <button class="btn btn-info" (click)="openInfo()">Info Dialog</button>
             <button class="btn btn-warning" (click)="openWarning()">Warning Dialog</button>
             <button class="btn btn-danger" (click)="openError()">Error Dialog</button>
             <button class="btn btn-neutral" (click)="openQuestion()">Question Dialog</button>
-            <button class="btn btn-success" (click)="openYesNoCancel()">Yes/No/Cancel Dialog</button>
+            <button class="btn btn-success" (click)="openYesNoCancel()">
+              Yes/No/Cancel Dialog
+            </button>
           </div>
         </div>
       </div>
