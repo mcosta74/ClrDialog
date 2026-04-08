@@ -9,7 +9,7 @@ import { MessageBoxService } from './dialog/message-box';
   imports: [ClrIcon],
   template: `
     <div class="main-container">
-      <header class="header-6">
+      <header class="header-2">
         <div class="branding">
           <a class="nav-link">
             <clr-icon shape="home" size="lg"></clr-icon>
