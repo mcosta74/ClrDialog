@@ -29,7 +29,7 @@
     "@angular/core": "^21.2.4",
     "@angular/forms": "^21.2.4",
     "@angular/platform-browser": "^21.2.4",
-    "@angular/router": "^21.2.4",
+    "@angular/router": "^21.2.24",
     "@clr/angular": "^18.0.0",
     "@clr/ui": "^18.0.0",
     "rxjs": "~7.8.0",
